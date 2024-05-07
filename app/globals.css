@@ -31,3 +31,19 @@ body {
     text-wrap: balance;
   }
 }
+
+.herodesign {
+  background-image: url('/herobg.svg');
+  background-size: cover;
+  background-position: bottom right;
+  height: calc(100vh - 80px);
+}
+
+/* Медийна заявка за устройства с малък екран, като мобилни телефони */
+@media (max-width: 1024px) {
+  .herodesign {
+    background-image: url('/yellowbg.png');
+    background-position: center; /* Центрира фона така, че само жълтият фон да е видим */
+    height: unset;
+  }
+}
