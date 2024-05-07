@@ -1,6 +1,27 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  daisyui: {
+    themes: [
+      {
+        light: {
+          ...require("daisyui/src/theming/themes")["light"],
+          primary: "#F8A62C",
+          secondary: "#F04624",
+          "base-content": "#292929",
+        },
+      },
+      {
+        dark: {
+          ...require("daisyui/src/theming/themes")["dark"],
+          primary: "#F8A62C",
+          secondary: "#F04624",
+          "base-content": "#fff",
+        },
+      },
+    ],
+  },
+
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -15,6 +36,6 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('daisyui')],
 };
 export default config;
