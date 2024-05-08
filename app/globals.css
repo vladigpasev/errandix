@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body{
+  overflow-x: hidden;
+}
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 255, 255, 255;
@@ -46,4 +49,20 @@ body {
     background-position: center; /* Центрира фона така, че само жълтият фон да е видим */
     height: unset;
   }
+}
+
+.navbarstyle {
+  z-index: 100; /* Higher than the overlay */
+}
+
+.overlay {
+  z-index: 50; /* Lower than the navbar but higher than the page content */
+}
+
+.page-content {
+  z-index: 10; /* Lowest, for regular content */
+}
+
+.navbartozindex{
+  z-index: 49;
 }

@@ -9,7 +9,7 @@ function Navbar() {
 
     return (
         <div>
-            <div className='flex justify-between lg:block items-center sm:pr-8 lg:pr-0'>
+            <div className='fixed flex justify-between lg:block items-center sm:pr-8 lg:pr-0 bg-white w-full z-49 navbartozindex'>
                 <div className="flex items-center lg:justify-between sm:justify-end sm:flex-grow-0 flex-grow justify-between pr-8 sm:pr-0 lg:pr-8 pl-8 flex-row-reverse lg:flex-row">
                     <div className='sm:hidden block'>
                         <ul className='sm:hidden flex flex-row-reverse gap-8 text-base-content items-center font-semibold'>
@@ -40,7 +40,7 @@ function Navbar() {
             </div>
             {isNavbarOpen && (
                 <>
-                    <div className='lg:hidden fixed h-full w-full max-w-72 bg-white top-0 left-0 p-5 z-50'>
+                    <div className='navbarstyle lg:hidden fixed h-full w-full max-w-72 bg-white top-0 left-0 p-5 z-100'>
                         <ul className='flex w-full flex-col gap-5'>
                             <Link href='/register' className='border border-base-content p-2 px-3 rounded bg-base-content text-white w-fit'><li>Регистрация</li></Link>
                             <Link href='/login'><li>Вход</li></Link>
@@ -48,7 +48,7 @@ function Navbar() {
                             <Link href='/searchservice'><li>Нуждаеш се от услуга?</li></Link>
                         </ul>
                     </div>
-                    <div onClick={toggleNavbar} className='lg:hidden fixed z-49 bg-black opacity-25 top-0 left-0 w-full h-full'></div>
+                    <div onClick={toggleNavbar} className='overlay lg:hidden fixed z-49 bg-black opacity-25 top-0 left-0 w-full h-full'></div>
                 </>
             )}
         </div>
