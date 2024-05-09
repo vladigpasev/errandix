@@ -43,26 +43,26 @@ function Home() {
       </div>
 
       <div>
-        <div className='md:p-10 px-10 p-5 md:px-36  bg-[#FFD28E] bg-opacity-40 grid lg:grid-cols-2 grid-cols-1 gap-5'>
+        <div className='md:p-10 px-10 p-5 md:px-36  bg-[#FFD28E] bg-opacity-40 dark:bg-opacity- grid lg:grid-cols-2 grid-cols-1 gap-5'>
           <div>
             <h2 className='text-base-content font-semibold text-3xl pb-10'>Защо Errandix?</h2>
             <div className='flex flex-col gap-5 text-xl font-medium'>
               <div className='flex gap-2'>
-                <div className='text-gray-500'><svg fill='currentColor' width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.75C4.54822 1.75 1.75 4.54822 1.75 8C1.75 11.4518 4.54822 14.25 8 14.25C11.4518 14.25 14.25 11.4518 14.25 8C14.25 4.54822 11.4518 1.75 8 1.75ZM0.25 8C0.25 3.71979 3.71979 0.25 8 0.25C12.2802 0.25 15.75 3.71979 15.75 8C15.75 12.2802 12.2802 15.75 8 15.75C3.71979 15.75 0.25 12.2802 0.25 8Z"></path><path d="M11.5303 5.46967C11.8232 5.76256 11.8232 6.23744 11.5303 6.53033L7.53033 10.5303C7.23744 10.8232 6.76256 10.8232 6.46967 10.5303L4.46967 8.53033C4.17678 8.23744 4.17678 7.76256 4.46967 7.46967C4.76256 7.17678 5.23744 7.17678 5.53033 7.46967L7 8.93934L10.4697 5.46967C10.7626 5.17678 11.2374 5.17678 11.5303 5.46967Z"></path></svg></div>
+                <div className='text-gray-500 dark:text-white'><svg fill='currentColor' width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.75C4.54822 1.75 1.75 4.54822 1.75 8C1.75 11.4518 4.54822 14.25 8 14.25C11.4518 14.25 14.25 11.4518 14.25 8C14.25 4.54822 11.4518 1.75 8 1.75ZM0.25 8C0.25 3.71979 3.71979 0.25 8 0.25C12.2802 0.25 15.75 3.71979 15.75 8C15.75 12.2802 12.2802 15.75 8 15.75C3.71979 15.75 0.25 12.2802 0.25 8Z"></path><path d="M11.5303 5.46967C11.8232 5.76256 11.8232 6.23744 11.5303 6.53033L7.53033 10.5303C7.23744 10.8232 6.76256 10.8232 6.46967 10.5303L4.46967 8.53033C4.17678 8.23744 4.17678 7.76256 4.46967 7.46967C4.76256 7.17678 5.23744 7.17678 5.53033 7.46967L7 8.93934L10.4697 5.46967C10.7626 5.17678 11.2374 5.17678 11.5303 5.46967Z"></path></svg></div>
                 <div>
                   <div>Повече свободно време</div>
                   <div className='font-extralight text-lg'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum, sed ullam.</div>
                 </div>
               </div>
               <div className='flex gap-2'>
-                <div className='text-gray-500'><svg fill='currentColor' width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.75C4.54822 1.75 1.75 4.54822 1.75 8C1.75 11.4518 4.54822 14.25 8 14.25C11.4518 14.25 14.25 11.4518 14.25 8C14.25 4.54822 11.4518 1.75 8 1.75ZM0.25 8C0.25 3.71979 3.71979 0.25 8 0.25C12.2802 0.25 15.75 3.71979 15.75 8C15.75 12.2802 12.2802 15.75 8 15.75C3.71979 15.75 0.25 12.2802 0.25 8Z"></path><path d="M11.5303 5.46967C11.8232 5.76256 11.8232 6.23744 11.5303 6.53033L7.53033 10.5303C7.23744 10.8232 6.76256 10.8232 6.46967 10.5303L4.46967 8.53033C4.17678 8.23744 4.17678 7.76256 4.46967 7.46967C4.76256 7.17678 5.23744 7.17678 5.53033 7.46967L7 8.93934L10.4697 5.46967C10.7626 5.17678 11.2374 5.17678 11.5303 5.46967Z"></path></svg></div>
+                <div className='text-gray-500 dark:text-white'><svg fill='currentColor' width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.75C4.54822 1.75 1.75 4.54822 1.75 8C1.75 11.4518 4.54822 14.25 8 14.25C11.4518 14.25 14.25 11.4518 14.25 8C14.25 4.54822 11.4518 1.75 8 1.75ZM0.25 8C0.25 3.71979 3.71979 0.25 8 0.25C12.2802 0.25 15.75 3.71979 15.75 8C15.75 12.2802 12.2802 15.75 8 15.75C3.71979 15.75 0.25 12.2802 0.25 8Z"></path><path d="M11.5303 5.46967C11.8232 5.76256 11.8232 6.23744 11.5303 6.53033L7.53033 10.5303C7.23744 10.8232 6.76256 10.8232 6.46967 10.5303L4.46967 8.53033C4.17678 8.23744 4.17678 7.76256 4.46967 7.46967C4.76256 7.17678 5.23744 7.17678 5.53033 7.46967L7 8.93934L10.4697 5.46967C10.7626 5.17678 11.2374 5.17678 11.5303 5.46967Z"></path></svg></div>
                 <div>
                   <div>Спокойно ежедневие</div>
                   <div className='font-extralight text-lg'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum, sed ullam.</div>
                 </div>
               </div>
               <div className='flex gap-2'>
-                <div className='text-gray-500'><svg fill='currentColor' width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.75C4.54822 1.75 1.75 4.54822 1.75 8C1.75 11.4518 4.54822 14.25 8 14.25C11.4518 14.25 14.25 11.4518 14.25 8C14.25 4.54822 11.4518 1.75 8 1.75ZM0.25 8C0.25 3.71979 3.71979 0.25 8 0.25C12.2802 0.25 15.75 3.71979 15.75 8C15.75 12.2802 12.2802 15.75 8 15.75C3.71979 15.75 0.25 12.2802 0.25 8Z"></path><path d="M11.5303 5.46967C11.8232 5.76256 11.8232 6.23744 11.5303 6.53033L7.53033 10.5303C7.23744 10.8232 6.76256 10.8232 6.46967 10.5303L4.46967 8.53033C4.17678 8.23744 4.17678 7.76256 4.46967 7.46967C4.76256 7.17678 5.23744 7.17678 5.53033 7.46967L7 8.93934L10.4697 5.46967C10.7626 5.17678 11.2374 5.17678 11.5303 5.46967Z"></path></svg></div>
+                <div className='text-gray-500 dark:text-white'><svg fill='currentColor' width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.75C4.54822 1.75 1.75 4.54822 1.75 8C1.75 11.4518 4.54822 14.25 8 14.25C11.4518 14.25 14.25 11.4518 14.25 8C14.25 4.54822 11.4518 1.75 8 1.75ZM0.25 8C0.25 3.71979 3.71979 0.25 8 0.25C12.2802 0.25 15.75 3.71979 15.75 8C15.75 12.2802 12.2802 15.75 8 15.75C3.71979 15.75 0.25 12.2802 0.25 8Z"></path><path d="M11.5303 5.46967C11.8232 5.76256 11.8232 6.23744 11.5303 6.53033L7.53033 10.5303C7.23744 10.8232 6.76256 10.8232 6.46967 10.5303L4.46967 8.53033C4.17678 8.23744 4.17678 7.76256 4.46967 7.46967C4.76256 7.17678 5.23744 7.17678 5.53033 7.46967L7 8.93934L10.4697 5.46967C10.7626 5.17678 11.2374 5.17678 11.5303 5.46967Z"></path></svg></div>
                 <div>
                   <div>Гарантирана сигурност</div>
                   <div className='font-extralight text-lg'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum, sed ullam.</div>
@@ -78,9 +78,9 @@ function Home() {
         </div>
       </div>
 
-      <div className='container mx-auto px-4 lg:px-20 py-10'>
+      <div className='px-20 py-10 bg-white'>
         <div className=' mb-12'>
-          <h2 className='text-3xl lg:text-4xl font-bold'>Как работи?</h2>
+          <h2 className='text-3xl lg:text-4xl font-bold text-[#292929]'>Как работи?</h2>
           <p className='text-md mt-3 text-gray-600'>Разберете стъпките от създаването на обява за работа до намирането и.</p>
         </div>
 
@@ -121,9 +121,9 @@ function Home() {
       </div>
 
 
-      <div id='reviews' className="bg-gray-100 py-10 ">
-        <div className=' mb-12 px-4 lg:px-20'>
-          <h2 className='text-3xl lg:text-4xl font-bold'>Какво казват хората за нас</h2>
+      <div id='reviews' className="bg-gray-100 py-10 text-[#292929] ">
+        <div className=' mb-12 px-20'>
+          <h2 className='text-3xl lg:text-4xl font-bold'>Какво казват хората за нас?</h2>
         </div>
         <div className='flex flex-wrap justify-center gap-10 px-5 lg:px-52'>
           {[
@@ -167,7 +167,8 @@ function Home() {
 
       <footer className="footer p-10 text-base-content">
         <aside>
-          <img src="/logo.png" alt="Errandix Logo" width={50} height={50} className='w-40' />
+          <img src="/logo-white.svg" alt="Errandix Logo" width={50} height={50} className='w-40 dark:hidden block' />
+          <img src="/logo-black.svg" alt="Errandix Logo" width={50} height={50} className='w-40 hidden dark:block' />
           <p className='pl-4'>Еррандикс ЕООД. <br /> Всички права запазени 2024 ®</p>
         </aside>
         <nav className='pl-4'>
