@@ -4,13 +4,17 @@ import React, { useState } from 'react';
 import RegisterBtn from './RegisterBtn';
 import { SignInButton, SignedIn, SignedOut } from '@clerk/nextjs';
 import UserButton from './UserButton';
+import { usePathname } from 'next/navigation'
 
 
 function Navbar({ userProfileUrl }: any) {
     const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 
     const toggleNavbar = () => setIsNavbarOpen(!isNavbarOpen);
+    const pathname = usePathname()
+    const mode = localStorage.getItem('mode')
 
+    console.log(pathname);
     return (
         <div>
             <div className='fixed flex justify-between lg:block items-center sm:pr-8 lg:pr-0 bg-white dark:bg-black w-full z-49 navbartozindex'>
@@ -21,7 +25,7 @@ function Navbar({ userProfileUrl }: any) {
                                 <RegisterBtn smallDevice />
                             </SignedOut>
                             <SignedIn>
-                                <UserButton userProfileUrl={userProfileUrl}/>
+                                <UserButton userProfileUrl={userProfileUrl} />
                             </SignedIn>
                         </ul>
                     </div>
@@ -38,10 +42,18 @@ function Navbar({ userProfileUrl }: any) {
                                 <SignInButton mode='modal'><li className='cursor-pointer'>Вход</li></SignInButton>
                             </SignedOut>
                             <SignedIn>
-                                <UserButton userProfileUrl={userProfileUrl}/>
+                                <UserButton userProfileUrl={userProfileUrl} />
                             </SignedIn>
-                            <Link href='/findjob'><li>Намери си работа</li></Link>
-                            <Link href='/searchservice'><li>Нуждаеш се от услуга?</li></Link>
+                            {pathname == "/hire" && (
+                                <>
+                                <Link href='/findjob' className='border border-base-content px-5 py-2 rounded'><li>Открий си работа</li></Link>
+                                </>
+                            )}
+                            {pathname == "/findjob" && (
+                                <>
+                                <Link href='/hire' className='border border-base-content px-5 py-2 rounded'><li>Предложи работа</li></Link>
+                                </>
+                            )}
                         </ul>
                     </div>
                 </div>
@@ -52,7 +64,7 @@ function Navbar({ userProfileUrl }: any) {
                             <SignInButton mode='modal'><li className='cursor-pointer'>Вход</li></SignInButton>
                         </SignedOut>
                         <SignedIn>
-                            <UserButton userProfileUrl={userProfileUrl}/>
+                            <UserButton userProfileUrl={userProfileUrl} />
                         </SignedIn>
                     </ul>
                 </div>
@@ -65,8 +77,16 @@ function Navbar({ userProfileUrl }: any) {
                                 <RegisterBtn onOpenNavbar />
                                 <Link href='/login'><li>Вход</li></Link>
                             </SignedOut>
-                            <Link href='/findjob'><li>Намери си работа</li></Link>
-                            <Link href='/searchservice'><li>Нуждаеш се от услуга?</li></Link>
+                            {pathname == "/hire" && (
+                                <>
+                                <Link href='/findjob' className='border border-black px-5 py-2 rounded'><li>Открий си работа</li></Link>
+                                </>
+                            )}
+                            {pathname == "/findjob" && (
+                                <>
+                                <Link href='/hire' className='border border-black px-5 py-2 rounded'><li>Предложи работа</li></Link>
+                                </>
+                            )}
                         </ul>
                     </div>
                     <div onClick={toggleNavbar} className='overlay lg:hidden fixed z-49 bg-black opacity-25 top-0 left-0 w-full h-full'></div>

@@ -1,6 +1,8 @@
 import { SignedIn, SignedOut } from '@clerk/nextjs'
 import React from 'react'
 import { currentUser } from "@clerk/nextjs/server";
+import { redirect } from 'next/navigation';
+import Redirect from '@/components/Redirect';
 
 async function Home() {
   const user = await currentUser()
@@ -187,7 +189,7 @@ async function Home() {
         </footer>
       </SignedOut>
       <SignedIn>
-        <div className='pt-28 px-10 text-3xl text-base-content text-center font-medium'>Добре дошъл отново, {user?.fullName} 👋</div>
+        <Redirect route="/hire" />
       </SignedIn>
     </div>
   )
