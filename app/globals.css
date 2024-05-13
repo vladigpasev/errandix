@@ -2,9 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body{
+html,
+body {
   overflow-x: hidden;
 }
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 255, 255, 255;
@@ -21,12 +23,9 @@ html, body{
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
+  background: linear-gradient(to bottom,
       transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
 }
 
 @layer utilities {
@@ -46,23 +45,33 @@ body {
 @media (max-width: 1024px) {
   .herodesign {
     background-image: url('/yellowbg.png');
-    background-position: center; /* Центрира фона така, че само жълтият фон да е видим */
+    background-position: center;
+    /* Центрира фона така, че само жълтият фон да е видим */
     height: unset;
   }
 }
 
 .navbarstyle {
-  z-index: 100; /* Higher than the overlay */
+  z-index: 100;
+  /* Higher than the overlay */
 }
 
 .overlay {
-  z-index: 50; /* Lower than the navbar but higher than the page content */
+  z-index: 50;
+  /* Lower than the navbar but higher than the page content */
 }
 
 .page-content {
-  z-index: 10; /* Lowest, for regular content */
+  z-index: 10;
+  /* Lowest, for regular content */
 }
 
-.navbartozindex{
+.navbartozindex {
   z-index: 49;
+}
+
+@media (max-height: 680px) {
+  .containerpaddt {
+    padding-top: 160px;
+  }
 }
