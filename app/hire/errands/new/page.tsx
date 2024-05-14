@@ -21,6 +21,7 @@ const Page: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+    const inputRef = useRef<HTMLInputElement | null>(null); // Reference for the input field
     const router = useRouter(); // Use the useRouter hook
 
     const handleCategoryChange = (selectedCategory: string, selectedSubcategory: string) => {
@@ -44,12 +45,14 @@ const Page: React.FC = () => {
     }, []);
 
     const handleAutocomplete = () => {
-        if (autocompleteRef.current) {
+        if (autocompleteRef.current && inputRef.current) {
             const place = autocompleteRef.current.getPlace();
+            const inputValue = inputRef.current.value; // Get the value directly from the input field
+
             if (place && place.formatted_address) {
                 setFormData({
                     ...formData,
-                    location: place.formatted_address
+                    location: inputValue // Save the value as it appears in the input field
                 });
             } else {
                 console.error("No address available for this place.");
@@ -143,6 +146,7 @@ const Page: React.FC = () => {
                                             type="text"
                                             name="location"
                                             id="location"
+                                            ref={inputRef} // Reference for the input field
                                             value={formData.location}
                                             onChange={handleInputChange}
                                             className={`bg-gray-50 border ${errors.includes('location') ? 'border-red-500' : 'border-gray-300'} text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500`}
