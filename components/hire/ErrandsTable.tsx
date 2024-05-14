@@ -1,9 +1,19 @@
 "use client"
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useUser } from "@clerk/clerk-react";
 
 function ErrandsTable() {
     const [activeTab, setActiveTab] = useState('active');  // Initial active tab state
+    const [isAccountCompleted, setIsAccountCompleted] = useState(true);
+    const usermetadata = useUser().user?.publicMetadata;
+
+    useEffect(() => {
+        if (usermetadata) {
+            //@ts-ignore
+            setIsAccountCompleted(usermetadata.accountCompleted);
+        }
+    }, [usermetadata]);
 
     const data = [
         {
@@ -39,7 +49,7 @@ function ErrandsTable() {
             status: 'paused'
         },
         {
-            id: 4,
+            id: 5,  // Note the change from 4 to 5 to ensure unique ids
             imgSrc: "/docs/images/products/apple-watch.png",
             errand: "Deleted errand details...",
             clicks: 0,
@@ -48,7 +58,7 @@ function ErrandsTable() {
         }
     ];
 
-    const handleTabClick = (tab: any) => {
+    const handleTabClick = (tab: string) => {
         setActiveTab(tab);  // Update the active tab state
     };
 
@@ -57,12 +67,22 @@ function ErrandsTable() {
             <div className='font-light text-4xl py-2 pb-10'>Errands</div>
 
             <a href='/hire/errands/new' type="button" className="text-white bg-primary hover:bg-primary focus:ring-4 focus:outline-none focus:ring-primary font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-primary dark:hover:bg-primary dark:focus:ring-primary">
-               
-                <svg className="w-3.5 h-3.5 me-2"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s-14.3-32-32-32H256V80z"/></svg>
+
+                <svg className="w-3.5 h-3.5 me-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M256 80c0-17.7-14.3-32-32-32s-32 14.3-32 32V224H48c-17.7 0-32 14.3-32 32s14.3 32 32 32H192V432c0 17.7 14.3 32 32 32s32-14.3 32-32V288H400c17.7 0 32-14.3 32-32s14.3-32 32-32H256V80z" /></svg>
                 Създай Errand
             </a>
-
+            {!isAccountCompleted && <div>
+                    <div>
+                        <div className='px-2 pt-10'>
+                            <div role="alert" className="alert alert-warning mt-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                                <span>Предупреждение: Вашите Errands няма да бъдат видими, докато не завършите профила си! Завърши профил. </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>}
             <div className="pt-10 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+                
                 <ul className="flex flex-wrap -mb-px">
                     {Object.entries({ active: 'Активни', draft: 'Чернови', paused: 'Паузирани', deleted: 'Изтрити' }).map(([key, label]) => (
                         <li key={key} className="me-2">

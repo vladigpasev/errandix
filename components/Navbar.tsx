@@ -12,7 +12,6 @@ function Navbar({ userProfileUrl }: any) {
 
     const toggleNavbar = () => setIsNavbarOpen(!isNavbarOpen);
     const pathname = usePathname()
-    const mode = localStorage.getItem('mode')
 
     console.log(pathname);
     return (

@@ -1,19 +1,84 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef, useCallback } from 'react';
 import CategorySelector from '@/components/hire/createerrand/CategorySelector';
 import { LoadScript, Autocomplete } from '@react-google-maps/api';
+import { createErrand } from '@/server/createErrand';
 
 const Page: React.FC = () => {
+    const [formData, setFormData] = useState({
+        name: '',
+        when: '',
+        location: '',
+        category: '',
+        subCategory: '',
+        maxprice: '',
+        description: '',
+        specialReq: ''
+    });
+
+    const autocompleteRef = useRef<google.maps.places.Autocomplete | null>(null);
+
     const handleCategoryChange = (selectedCategory: string, subcategories: string[]) => {
-        // Handle category change logic if needed
-        console.log('Selected Category:', selectedCategory);
-        console.log('Subcategories:', subcategories);
+        setFormData({
+            ...formData,
+            category: selectedCategory,
+            subCategory: subcategories[0] || ''
+        });
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value
+        });
+    };
+
+    const handleAutocompleteLoad = useCallback((autocomplete: google.maps.places.Autocomplete) => {
+        autocompleteRef.current = autocomplete;
+    }, []);
+
+    const handleAutocomplete = () => {
+        if (autocompleteRef.current) {
+            const place = autocompleteRef.current.getPlace();
+            if (place && place.formatted_address) {
+                setFormData({
+                    ...formData,
+                    location: place.formatted_address
+                });
+            } else {
+                console.error("No address available for this place.");
+            }
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        const formattedData = {
+            title: formData.name,
+            dateTime: formData.when,
+            location: formData.location,
+            category: formData.category,
+            subCategory: formData.subCategory,
+            maxPrice: formData.maxprice,
+            description: formData.description,
+            specialReq: formData.specialReq
+        };
+
+        const result = await createErrand(formattedData);
+        if (result.success) {
+            alert(result.message);
+            // Optionally, redirect or reset form here
+        } else {
+            alert(result.message);
+        }
     };
 
     return (
         <LoadScript
-            //@ts-ignore
+        //@ts-ignore
             googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}
             libraries={["places"]}
         >
@@ -21,7 +86,7 @@ const Page: React.FC = () => {
                 <section className="bg-white dark:bg-gray-900">
                     <div className="py-8 px-4 mx-auto max-w-2xl lg:py-16">
                         <h2 className="mb-4 text-xl font-bold text-gray-900 dark:text-white">Създай нов Errand</h2>
-                        <form action="#">
+                        <form onSubmit={handleSubmit}>
                             <div className="grid gap-4 sm:grid-cols-2 sm:gap-6">
                                 <div className="sm:col-span-2">
                                     <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Заглавие</label>
@@ -30,6 +95,8 @@ const Page: React.FC = () => {
                                         type="text"
                                         name="name"
                                         id="name"
+                                        value={formData.name}
+                                        onChange={handleInputChange}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Напишете заглавето тук"
                                         required
@@ -42,6 +109,8 @@ const Page: React.FC = () => {
                                         type="date"
                                         name="when"
                                         id="when"
+                                        value={formData.when}
+                                        onChange={handleInputChange}
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Кога трябва да се извърши услугата?"
                                         required
@@ -50,11 +119,16 @@ const Page: React.FC = () => {
                                 <div className="w-full">
                                     <label htmlFor="location" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Къде трябва да се извърши услугата?</label>
                                     <p className='text-xs font-light pb-2 text-gray-600'>Не е необходимо да въвеждате точен адрес, а само ориентировъчен квартал или район.</p>
-                                    <Autocomplete>
+                                    <Autocomplete
+                                        onLoad={handleAutocompleteLoad}
+                                        onPlaceChanged={handleAutocomplete}
+                                    >
                                         <input
                                             type="text"
                                             name="location"
                                             id="location"
+                                            value={formData.location}
+                                            onChange={handleInputChange}
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             placeholder="Лозенец"
                                             required
@@ -65,33 +139,43 @@ const Page: React.FC = () => {
                                 <div className="w-full sm:col-span-2 sm:w-1/2">
                                     <label htmlFor="maxprice" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Максимална цена за услуга (в лева)</label>
                                     <p className='text-xs font-light pb-2 text-gray-600'>Въведете максималната цена, която сте готови да заплатите за услугата.</p>
-                                        <input
-                                            type="number"
-                                            name="maxprice"
-                                            id="maxprice"
-                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                            placeholder="20"
-                                            required
-                                        />
+                                    <input
+                                        type="number"
+                                        name="maxprice"
+                                        id="maxprice"
+                                        value={formData.maxprice}
+                                        onChange={handleInputChange}
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        placeholder="20"
+                                        required
+                                    />
                                 </div>
                                 <div className="sm:col-span-2">
                                     <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Описание</label>
                                     <p className='text-xs font-light pb-2 text-gray-600'>Моля опишете по-точно в какво се състои работата.</p>
                                     <textarea
+                                        name="description"
                                         id="description"
                                         rows={8}
+                                        value={formData.description}
+                                        onChange={handleInputChange}
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Въведете описанието тук"
+                                        required
                                     ></textarea>
                                 </div>
                                 <div className="sm:col-span-2">
-                                    <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Специални изисквания</label>
+                                    <label htmlFor="specialReq" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Специални изисквания</label>
                                     <p className='text-xs font-light pb-2 text-gray-600'>Моля отбележете специалните си изисквания към служителите, ако имате такива.</p>
                                     <textarea
-                                        id="description"
+                                        name="specialReq"
+                                        id="specialReq"
                                         rows={8}
+                                        value={formData.specialReq}
+                                        onChange={handleInputChange}
                                         className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Въведете описанието тук"
+                                        required
                                     ></textarea>
                                 </div>
                             </div>
