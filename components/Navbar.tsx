@@ -44,14 +44,15 @@ function Navbar({ userProfileUrl }: any) {
                             <SignedIn>
                                 <UserButton userProfileUrl={userProfileUrl} />
                             </SignedIn>
-                            {pathname == "/hire" && (
+                            {pathname.startsWith('/hire') && (
                                 <>
-                                <Link href='/findjob' className='border border-base-content px-5 py-2 rounded'><li>Открий си работа</li></Link>
+                                    <Link href='/findjob' className='border border-base-content px-5 py-2 rounded'><li>Открий си работа</li></Link>
+                                    <Link href='/hire'><li>My Errands</li></Link>
                                 </>
                             )}
-                            {pathname == "/findjob" && (
+                            {pathname.startsWith('/findjob') && (
                                 <>
-                                <Link href='/hire' className='border border-base-content px-5 py-2 rounded'><li>Предложи работа</li></Link>
+                                    <Link href='/hire' className='border border-base-content px-5 py-2 rounded'><li>Предложи работа</li></Link>
                                 </>
                             )}
                         </ul>
@@ -77,14 +78,15 @@ function Navbar({ userProfileUrl }: any) {
                                 <RegisterBtn onOpenNavbar />
                                 <Link href='/login'><li>Вход</li></Link>
                             </SignedOut>
-                            {pathname == "/hire" && (
+                            {pathname.startsWith('/hire') && (
                                 <>
-                                <Link href='/findjob' className='border border-black px-5 py-2 rounded'><li>Открий си работа</li></Link>
+                                    <Link href='/findjob' className='border border-black px-5 py-2 rounded'><li>Открий си работа</li></Link>
+                                    <Link href='/hire'><li>My Errands</li></Link>
                                 </>
                             )}
-                            {pathname == "/findjob" && (
+                            {pathname.startsWith('/findjob') && (
                                 <>
-                                <Link href='/hire' className='border border-black px-5 py-2 rounded'><li>Предложи работа</li></Link>
+                                    <Link href='/hire' className='border border-black px-5 py-2 rounded'><li>Предложи работа</li></Link>
                                 </>
                             )}
                         </ul>

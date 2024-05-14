@@ -26,7 +26,7 @@ function UserButton({ userProfileUrl }: any) {
                                     Моят акаунт
                                 </Link>
                             </li>
-                            {pathname == "/hire" && (
+                            {pathname.startsWith('/hire') && (
                                 <>
                                     <li className="font-medium">
                                         <Link href="/findjob" className="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-[#F8A62C]">
@@ -38,7 +38,7 @@ function UserButton({ userProfileUrl }: any) {
                                     </li>
                                 </>
                             )}
-                            {pathname == "/findjob" && (
+                            {pathname.startsWith('/findjob') && (
                                 <>
                                     <li className="font-medium">
                                         <Link href="/hire" className="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-[#F8A62C]">
