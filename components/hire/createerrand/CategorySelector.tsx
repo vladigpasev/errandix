@@ -158,6 +158,7 @@ const categorySubcategoryMap = {
 const CategorySelector: React.FC<CategorySelectorProps> = ({ onCategoryChange }) => {
     const [category, setCategory] = useState<string>('');
     const [subcategories, setSubcategories] = useState<string[]>([]);
+    const [selectedSubcategory, setSelectedSubcategory] = useState<string>('');
 
     const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
         const selectedCategory = event.target.value;
@@ -165,7 +166,16 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({ onCategoryChange })
         //@ts-ignore
         const selectedSubcategories = categorySubcategoryMap[selectedCategory] || [];
         setSubcategories(selectedSubcategories);
-        onCategoryChange(selectedCategory, selectedSubcategories);
+        const firstSubcategory = selectedSubcategories[0] || '';
+        setSelectedSubcategory(firstSubcategory);
+        onCategoryChange(selectedCategory, firstSubcategory);
+    };
+
+    const handleSubcategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
+        const subcategory = event.target.value;
+        setSelectedSubcategory(subcategory);
+        //@ts-ignore
+        onCategoryChange(category, subcategory);
     };
 
     return (
@@ -189,6 +199,8 @@ const CategorySelector: React.FC<CategorySelectorProps> = ({ onCategoryChange })
                     <label htmlFor="subcategory" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Подкатегория</label>
                     <select
                         id="subcategory"
+                        value={selectedSubcategory}
+                        onChange={handleSubcategoryChange}
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     >
                         <option value="" disabled>Избери субкатегория</option>

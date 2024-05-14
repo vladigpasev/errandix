@@ -9,10 +9,16 @@ import { eq } from 'drizzle-orm';
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers'
 import { currentUser } from "@clerk/nextjs/server";
+import OpenAI from 'openai';
 
 const db = drizzle(sql);
 
 const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+
+const openai = new OpenAI({
+    organization: "org-aNz8Hs6PinAJZz5FQPF9HbjN",
+    apiKey: process.env.OPENAI_API_KEY,
+});
 
 async function geocodeLocation(address: any) {
     const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${googleMapsApiKey}`;
@@ -54,13 +60,81 @@ export async function createErrand(data: any) {
         subCategory: z.string().nonempty(),
         maxPrice: z.any(),
         description: z.string().nonempty(),
-        specialReq: z.string().nonempty(),
+        specialReq: z.any(),
     });
     const user = await currentUser();
     const userUuid = user?.id;
 
     try {
         const validatedData = errandSchema.parse(data);
+        const thread = await openai.beta.threads.create();
+        const message = await openai.beta.threads.messages.create(
+            thread.id,
+            {
+                role: "user",
+                content: JSON.stringify({
+                    title: validatedData.title,
+                    category: validatedData.category,
+                    sub_category: validatedData.subCategory,
+                    description: validatedData.description,
+                    special_requirements: validatedData.specialReq,
+                    location: validatedData.location,
+                })
+            }
+        );
+        console.log(JSON.stringify({
+            title: validatedData.title,
+            category: validatedData.category,
+            sub_category: validatedData.subCategory,
+            description: validatedData.description,
+            special_requirements: validatedData.specialReq,
+            location: validatedData.location,
+        }));
+        
+        const run = await openai.beta.threads.runs.create(
+            thread.id,
+            {
+                assistant_id: 'asst_fZreLzdFmjo9BEApfs6BVjqP'
+            }
+        );
+
+        const checkRunStatus = async () => {
+            try {
+                const status = await openai.beta.threads.runs.retrieve(thread.id, run.id);
+                return status.status === 'completed';
+            } catch (error) {
+                console.error("Error checking run status:", error);
+                return false;
+            }
+        };
+
+        let isCompleted = await checkRunStatus();
+
+        while (!isCompleted) {
+            await new Promise(resolve => setTimeout(resolve, 1000)); // wait for 2 seconds
+            isCompleted = await checkRunStatus();
+        }
+
+        const messages = await openai.beta.threads.messages.list(thread.id);
+
+        const assistantMessage = messages.data.find(message => message.role === 'assistant');
+
+        if (assistantMessage && assistantMessage.content) {
+            //@ts-ignore
+
+            const responseText = assistantMessage.content.map(content => content.text.value).join(' ');
+            const responseJSON = JSON.parse(responseText);
+            console.log("Assistant's Response: ", responseJSON);
+
+            if(responseJSON.success != true){
+                return { success: false, message: 'Errand creation failed', errorfields: responseJSON.errorfields };
+            }else{
+
+            }
+            
+            //return responseText;
+        }
+
         const coordinates = await geocodeLocation(validatedData.location);
         // Combine validated data with userUuid
         const eventData = {

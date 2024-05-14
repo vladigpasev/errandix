@@ -8,7 +8,7 @@ export const errands = pgTable('errands', {
   category: varchar('category', { length: 50 }).notNull(),
   subCategory: varchar('subCategory', { length: 50 }).notNull(),
   description: text('description').notNull(),
-  specialReq: text('specialReq').notNull(),
+  specialReq: text('specialReq'),
   location: varchar('location', {length: 100}).notNull(),
   errandCoordinates: varchar('eventCoordinates', {length: 100}),
   maxPrice: numeric('price', { precision: 10, scale: 2 }),
