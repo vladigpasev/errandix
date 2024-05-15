@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { CategorySelectorProps } from './types';
 
 const categorySubcategoryMap = {
@@ -154,11 +154,25 @@ const categorySubcategoryMap = {
         "почистване на мотоциклет",
     ],
 };
-
-const CategorySelector: React.FC<CategorySelectorProps> = ({ onCategoryChange }) => {
-    const [category, setCategory] = useState<string>('');
+//@ts-ignore
+const CategorySelector: React.FC<CategorySelectorProps> = ({ onCategoryChange, initialCategory = '', initialSubCategory = '' }) => {
+    const [category, setCategory] = useState<string>(initialCategory);
     const [subcategories, setSubcategories] = useState<string[]>([]);
-    const [selectedSubcategory, setSelectedSubcategory] = useState<string>('');
+    const [selectedSubcategory, setSelectedSubcategory] = useState<string>(initialSubCategory);
+
+    useEffect(() => {
+        if (initialCategory) {
+            //@ts-ignore
+            const selectedSubcategories = categorySubcategoryMap[initialCategory] || [];
+            setSubcategories(selectedSubcategories);
+        }
+    }, [initialCategory]);
+
+    useEffect(() => {
+        if (initialSubCategory) {
+            setSelectedSubcategory(initialSubCategory);
+        }
+    }, [initialSubCategory]);
 
     const handleCategoryChange = (event: ChangeEvent<HTMLSelectElement>) => {
         const selectedCategory = event.target.value;
