@@ -12,11 +12,21 @@ export const errands = pgTable('errands', {
   location: varchar('location', {length: 100}).notNull(),
   errandCoordinates: varchar('eventCoordinates', {length: 100}),
   maxPrice: numeric('price', { precision: 10, scale: 2 }),
-  uploaderUuid: varchar('userUuid', {length: 100}).notNull(),
+  uploaderUuid: varchar('uploaderUuid', {length: 100}).notNull(),
   dateTime: varchar('dateTime', {length: 100}).notNull(),
   clicks: numeric('clicks').default('0'),
   offers: numeric('offers').default('0'),
   status: varchar('status', {length: 100}).notNull(),
+  //@ts-ignore
+  updatedAt: timestamp('updated_at').default(`now()`),
+});
+
+export const additionalDataTable = pgTable('additionalDataTable', {
+  id: serial('id').primaryKey(),
+  uuid: uuid('uuid').default(`uuid_generate_v4()`).unique(),
+  birthDate: varchar('birthDate', {length: 100}).notNull(),
+  bio: text('bio').notNull(),
+  uploaderUuid: varchar('uploaderUuid', {length: 100}).notNull(),
   //@ts-ignore
   updatedAt: timestamp('updated_at').default(`now()`),
 });
