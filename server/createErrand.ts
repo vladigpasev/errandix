@@ -10,6 +10,7 @@ import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers'
 import { currentUser } from "@clerk/nextjs/server";
 import OpenAI from 'openai';
+import { clerkClient } from "@clerk/nextjs/server";
 
 const db = drizzle(sql);
 
@@ -63,6 +64,7 @@ export async function createErrand(data: any) {
         specialReq: z.any(),
     });
     const user = await currentUser();
+    const usermetadata = user?.publicMetadata;
     const userUuid = user?.id;
 
     try {
@@ -137,12 +139,23 @@ export async function createErrand(data: any) {
 
         const coordinates = await geocodeLocation(validatedData.location);
         // Combine validated data with userUuid
-        const eventData = {
-            ...validatedData,
-            uploaderUuid: userUuid,
-            eventCoordinates: coordinates,
-            status: 'active',
-        };
+        let eventData;
+        if(!usermetadata?.accountCompleted){
+            eventData = {
+                ...validatedData,
+                uploaderUuid: userUuid,
+                errandCoordinates: coordinates,
+                status: 'paused',
+            };
+        }else{
+            eventData = {
+                ...validatedData,
+                uploaderUuid: userUuid,
+                errandCoordinates: coordinates,
+                status: 'active',
+            };
+        }
+        
         //@ts-ignore
         console.log(eventData);
         //@ts-ignore

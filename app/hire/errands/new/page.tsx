@@ -205,7 +205,7 @@ const Page: React.FC = () => {
                                 className={`inline-flex items-center px-5 py-2.5 mt-4 sm:mt-6 text-sm font-medium text-center text-white ${isSubmitting ? 'bg-gray-500' : 'bg-primary'} rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 ${isSubmitting ? '' : 'hover:bg-primary-800'}`}
                                 disabled={isSubmitting}
                             >
-                                {isSubmitting ? 'Loading...' : 'Създай Errand'}
+                                {isSubmitting ? 'Зареждане...' : 'Създай Errand'}
                             </button>
                         </form>
                     </div>

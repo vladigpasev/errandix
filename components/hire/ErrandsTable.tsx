@@ -25,14 +25,6 @@ function ErrandsTable() {
             status: 'active'
         },
         {
-            id: 2,
-            imgSrc: "/docs/images/products/apple-watch.png",
-            errand: "Draft errand details...",
-            clicks: 3,
-            offers: 0,
-            status: 'draft'
-        },
-        {
             id: 3,
             imgSrc: "/docs/images/products/apple-watch.png",
             errand: "Paused errand details...",
@@ -48,14 +40,6 @@ function ErrandsTable() {
             offers: 1,
             status: 'paused'
         },
-        {
-            id: 5,  // Note the change from 4 to 5 to ensure unique ids
-            imgSrc: "/docs/images/products/apple-watch.png",
-            errand: "Deleted errand details...",
-            clicks: 0,
-            offers: 0,
-            status: 'deleted'
-        }
     ];
 
     const handleTabClick = (tab: string) => {
@@ -76,7 +60,7 @@ function ErrandsTable() {
                         <div className='px-2 pt-10'>
                             <div role="alert" className="alert alert-warning mt-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                                <span>Предупреждение: Вашите Errands няма да бъдат видими, докато не завършите профила си! Завърши профил. </span>
+                                <span>Предупреждение: Вашите Errands няма да бъдат видими, докато не допълните липсващата информация в акаунта си! <span className='link'>Допълни липсваща информация.</span> </span>
                             </div>
                         </div>
                     </div>
@@ -84,7 +68,7 @@ function ErrandsTable() {
             <div className="pt-10 text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
                 
                 <ul className="flex flex-wrap -mb-px">
-                    {Object.entries({ active: 'Активни', draft: 'Чернови', paused: 'Паузирани', deleted: 'Изтрити' }).map(([key, label]) => (
+                    {Object.entries({ active: 'Активни', paused: 'Паузирани' }).map(([key, label]) => (
                         <li key={key} className="me-2">
                             <a href="#" onClick={() => handleTabClick(key)} className={`inline-block p-4 border-b-2 ${activeTab === key ? 'border-primary text-primary' : 'border-transparent'} rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300`}>
                                 {label}
