@@ -60,6 +60,12 @@ export async function updateErrand(data: any) {
     const user = await currentUser();
     const userUuid = user?.id;
 
+    if (!user || user.publicMetadata.accountCompleted !== true) {
+        if (data.status === 'active') {
+            return { success: false, message: 'Not authorized to set the status to active' };
+        }
+    }
+
     try {
         const validatedData = errandSchema.parse(data);
 
@@ -113,15 +119,7 @@ export async function updateErrand(data: any) {
                     })
                 }
             );
-            console.log(JSON.stringify({
-                title: validatedData.title,
-                category: validatedData.category,
-                sub_category: validatedData.subCategory,
-                description: validatedData.description,
-                special_requirements: validatedData.specialReq,
-                location: validatedData.location,
-            }));
-            
+
             const run = await openai.beta.threads.runs.create(
                 thread.id,
                 {
@@ -154,7 +152,6 @@ export async function updateErrand(data: any) {
                 //@ts-ignore
                 const responseText = assistantMessage.content.map(content => content.text.value).join(' ');
                 const responseJSON = JSON.parse(responseText);
-                console.log("Assistant's Response: ", responseJSON);
 
                 if (responseJSON.success !== true) {
                     return { success: false, message: 'Errand update failed', errorfields: responseJSON.errorfields };
