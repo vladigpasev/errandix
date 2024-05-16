@@ -14,34 +14,10 @@ import { clerkClient } from "@clerk/nextjs/server";
 
 const db = drizzle(sql);
 
-const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-
 const openai = new OpenAI({
     organization: "org-aNz8Hs6PinAJZz5FQPF9HbjN",
     apiKey: process.env.OPENAI_API_KEY,
 });
-
-async function geocodeLocation(address: any) {
-    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${googleMapsApiKey}`;
-
-    try {
-        const response = await fetch(geocodeUrl);
-        const data = await response.json();
-        //@ts-ignore
-        if (data.results && data.results.length > 0) {
-            //@ts-ignore
-            const { lat, lng } = data.results[0].geometry.location;
-            //console.log("Geocoding result for", address, ":", { lat, lng });
-            return { lat, lng };
-        } else {
-            console.error('No results found for location:', address);
-            return null;
-        }
-    } catch (error) {
-        console.error('Error in geocoding:', error);
-        return null;
-    }
-}
 
 export async function createErrand(data: any) {
     // Define a schema for event data validation
@@ -137,21 +113,19 @@ export async function createErrand(data: any) {
             //return responseText;
         }
 
-        const coordinates = await geocodeLocation(validatedData.location);
+        
         // Combine validated data with userUuid
         let eventData;
         if(!usermetadata?.accountCompleted){
             eventData = {
                 ...validatedData,
                 uploaderUuid: userUuid,
-                errandCoordinates: coordinates,
                 status: 'paused',
             };
         }else{
             eventData = {
                 ...validatedData,
                 uploaderUuid: userUuid,
-                errandCoordinates: coordinates,
                 status: 'active',
             };
         }

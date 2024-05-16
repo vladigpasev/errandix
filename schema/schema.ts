@@ -10,7 +10,6 @@ export const errands = pgTable('errands', {
   description: text('description').notNull(),
   specialReq: text('specialReq'),
   location: varchar('location', {length: 100}).notNull(),
-  errandCoordinates: varchar('eventCoordinates', {length: 100}),
   maxPrice: numeric('price', { precision: 10, scale: 2 }),
   uploaderUuid: varchar('uploaderUuid', {length: 100}).notNull(),
   dateTime: varchar('dateTime', {length: 100}).notNull(),

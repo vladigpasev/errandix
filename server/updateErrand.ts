@@ -9,31 +9,10 @@ import OpenAI from 'openai';
 
 const db = drizzle(sql);
 
-const googleMapsApiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-
 const openai = new OpenAI({
     organization: "org-aNz8Hs6PinAJZz5FQPF9HbjN",
     apiKey: process.env.OPENAI_API_KEY,
 });
-
-async function geocodeLocation(address: any) {
-    const geocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${googleMapsApiKey}`;
-
-    try {
-        const response = await fetch(geocodeUrl);
-        const data = await response.json();
-        if (data.results && data.results.length > 0) {
-            const { lat, lng } = data.results[0].geometry.location;
-            return { lat, lng };
-        } else {
-            console.error('No results found for location:', address);
-            return null;
-        }
-    } catch (error) {
-        console.error('Error in geocoding:', error);
-        return null;
-    }
-}
 
 export async function updateErrand(data: any) {
     const errandSchema = z.object({
@@ -94,10 +73,6 @@ export async function updateErrand(data: any) {
             specialReq: validatedData.specialReq,
             status: validatedData.status,
         };
-
-        const coordinates = await geocodeLocation(validatedData.location);
-        //@ts-ignore
-        updatedData.errandCoordinates = coordinates;
 
         const fieldsToCheck = ['title', 'category', 'subCategory', 'description', 'specialReq', 'location'];
         //@ts-ignore
