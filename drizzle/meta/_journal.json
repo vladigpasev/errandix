@@ -29,6 +29,20 @@
       "when": 1715765215252,
       "tag": "0003_nervous_jazinda",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1715900839981,
+      "tag": "0004_military_big_bertha",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1715900933652,
+      "tag": "0005_misty_starfox",
+      "breakpoints": true
     }
   ]
 }

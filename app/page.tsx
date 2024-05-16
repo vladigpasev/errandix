@@ -189,7 +189,7 @@ async function Home() {
         </footer>
       </SignedOut>
       <SignedIn>
-        <Redirect route="/hire" />
+        <Redirect route="/findjob" />
       </SignedIn>
     </div>
   )

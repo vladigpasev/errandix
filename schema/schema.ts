@@ -29,3 +29,22 @@ export const additionalDataTable = pgTable('additionalDataTable', {
   //@ts-ignore
   updatedAt: timestamp('updated_at').default(`now()`),
 });
+
+export const additionalDataTableClient = pgTable('additionalDataTableClient', {
+  id: serial('id').primaryKey(),
+  uuid: uuid('uuid').default(`uuid_generate_v4()`).unique(),
+  bio: text('bio').notNull(),
+  uploaderUuid: varchar('uploaderUuid', {length: 100}).notNull(),
+  //@ts-ignore
+  updatedAt: timestamp('updated_at').default(`now()`),
+});
+
+export const offers = pgTable('offers', {
+  id: serial('id').primaryKey(),
+  uuid: uuid('uuid').default(`uuid_generate_v4()`).unique(),
+  clientUuid: varchar('clientUuid', {length: 100}).notNull(),
+  errandUuid: varchar('errandUuid', {length: 100}).notNull(),
+  price: varchar('price', {length: 100}).notNull(),
+  //@ts-ignore
+  updatedAt: timestamp('updated_at').default(`now()`),
+});
