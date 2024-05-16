@@ -39,8 +39,10 @@ export async function updateErrand(data: any) {
     const user = await currentUser();
     const userUuid = user?.id;
 
-    if (!user || user.publicMetadata.accountCompleted !== true) {
+    if (!user?.publicMetadata.accountCompleted) {
         if (data.status === 'active') {
+            console.log(user?.publicMetadata);
+            console.log(data.status);
             return { success: false, message: 'Not authorized to set the status to active' };
         }
     }

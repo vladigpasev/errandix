@@ -54,10 +54,23 @@ const ErrandInfo = ({ errand }: any) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
+        const currentErrors: string[] = [];
 
+        // Validate max price
         const maxPriceValue = parseFloat(formData.maxprice);
         if (isNaN(maxPriceValue) || maxPriceValue <= 0) {
-            setErrors(prevErrors => [...prevErrors, 'maxPrice']);
+            currentErrors.push('maxPrice');
+        }
+
+        // Validate date to be in the future
+        const selectedDate = new Date(formData.when);
+        const currentDate = new Date();
+        if (selectedDate <= currentDate) {
+            currentErrors.push('dateTime');
+        }
+
+        if (currentErrors.length > 0) {
+            setErrors(currentErrors);
             setIsSubmitting(false);
             return;
         }
