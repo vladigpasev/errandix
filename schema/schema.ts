@@ -48,3 +48,13 @@ export const offers = pgTable('offers', {
   //@ts-ignore
   updatedAt: timestamp('updated_at').default(`now()`),
 });
+
+export const messages = pgTable('messages', {
+  id: serial('id').primaryKey(),
+  offerId: uuid('offer_id').notNull(),
+  userId: uuid('user_id').notNull(),
+  senderName: text('sender_name').notNull(),
+  text: text('text').notNull(),
+  //@ts-ignore
+  createdAt: timestamp('created_at').default(`now()`),
+});

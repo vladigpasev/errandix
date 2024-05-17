@@ -12,6 +12,7 @@
   "dependencies": {
     "@clerk/nextjs": "^5.0.7",
     "@vercel/postgres": "^0.8.0",
+    "ably": "^2.0.4",
     "drizzle-orm": "^0.30.10",
     "next": "14.2.3",
     "openai": "^4.47.1",

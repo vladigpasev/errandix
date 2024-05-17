@@ -53,6 +53,7 @@ async function Page({ params }: { params: { uuid: string } }) {
     }
 
     const allOffers = await db.select({
+        uuid: offers.uuid,
         clientUuid: offers.clientUuid,
         price: offers.price,
     })
