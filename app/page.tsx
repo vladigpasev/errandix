@@ -49,7 +49,7 @@ async function Home() {
             <div className='flex justify-center'><img src="/popular/1.svg" className='rounded-lg' /></div>
             <div className='flex justify-center'><img src="/popular/2.svg" className='rounded-lg' /></div>
             <div className='flex justify-center'><img src="/popular/3.svg" className='rounded-lg' /></div>
-            <div className='flex justify-center'><img src="/popular/4.svg" className='rounded-lg' /></div>
+            <div className='flex justify-center'><img src="/popular/5.svg" className='rounded-lg' /></div>
           </div>
         </div>
 
@@ -92,7 +92,7 @@ async function Home() {
               </div>
               <div className='md:col-span-7'>
                 <h3 className='text-lg font-semibold mb-3'>Работодателят създава обява</h3>
-                <p className='text-gray-600'>Работодателите могат лесно да създадат обява за работа, която да бъде лесно открита в платформата.</p>
+                <p className='text-gray-600'>Работодателите могат да създадат обява за работа, която да бъде лесно открита в платформата.</p>
               </div>
             </div>
 
