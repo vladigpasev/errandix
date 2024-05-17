@@ -48,7 +48,7 @@ function Page() {
         <div className='flex flex-col gap-5'>
           {errands.map((errand) => (
             //@ts-ignore
-            <SignInButton>
+            <SignInButton key={errand.uuid}>
               {/* @ts-ignore */}
               <div key={errand.uuid} className="cursor-pointer block p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 w-full">
                 {/* @ts-ignore */}
