@@ -105,18 +105,21 @@ async function Page({ params }: { params: { mode: string, offerId: string } }) {
 
   // Create a mapping from UUID to user name
   const uuidToUserNameMap = userInfos.reduce((acc, userInfo) => {
+    //@ts-ignore
     acc[userInfo.id] = userInfo.fullName;
     return acc;
   }, {});
 
   // Transform previous messages to include user names
   const transformedMessages = previousMessages.map(msg => ({
+    //@ts-ignore
     id: msg.id,
     timestamp: new Date().toISOString(),
     clientId: msg.senderUuid,
     connectionId: null,
     data: {
       text: msg.messageText,
+      //@ts-ignore
       userId: msg.senderUuid === userUuid ? uuidToUserNameMap[msg.senderUuid] : uuidToUserNameMap[msg.senderUuid]
     },
     name: 'chat-message',
@@ -130,10 +133,12 @@ async function Page({ params }: { params: { mode: string, offerId: string } }) {
       <ChatClient 
         mode={params.mode} 
         offerId={params.offerId} 
+        //@ts-ignore
         senderName={senderName} 
         senderProfileImage={senderProfileImage} 
         senderUuid={senderUuid}
         previousMessages={transformedMessages} // Pass transformed messages as a prop
+        //@ts-ignore
         apiKey={process.env.ABLY_API_KEY}
       />
     </div>
