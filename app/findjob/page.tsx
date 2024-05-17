@@ -16,7 +16,7 @@ function Page() {
   }, []);
 
   return (
-    <div className='pt-24 px-24'>
+    <div className='pt-24 px-24 dark:min-h-screen'>
       <SignedIn>
         <div className='flex flex-col gap-5'>
           {errands.map((errand) => (
@@ -35,9 +35,9 @@ function Page() {
               </div>
               <div className="card-actions justify-end text-primary">
                 {/* @ts-ignore */}
-                <div className="badge badge-outline">{errand.category}</div>
+                <div className="border border-primary rounded-full px-2 py-1">{errand.category}</div>
                 {/* @ts-ignore */}
-                <div className="badge badge-outline">{errand.subCategory}</div>
+                <div className="border border-primary rounded-full px-2 py-1">{errand.subCategory}</div>
               </div>
             </a>
           ))}

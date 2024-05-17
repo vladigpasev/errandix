@@ -114,14 +114,14 @@ function Chat({ offerId, senderName, senderProfileImage, senderUuid, previousMes
   };
 
   return (
-    <div className='flex flex-col items-center mt-24'>
+    <div className='flex flex-col items-center mt-24 min-h-screen'>
       <div className="flex items-center mb-5">
         <img src={senderProfileImage} alt={`${senderName}'s profile`} className="w-12 h-12 rounded-full mr-3" />
         <h2 className="text-lg font-semibold">{senderName}</h2>
       </div>
-      <div className="w-full max-w-lg bg-gray-100 rounded-lg p-4 shadow-md overflow-y-auto" style={{ maxHeight: '300px' }}>
+      <div className="w-full max-w-lg bg-gray-100 dark:bg-gray-900 rounded-lg p-4 shadow-md overflow-y-auto" style={{ maxHeight: '300px' }}>
         {messages.map((message, index) => (
-          <div key={index} className={`mb-2 p-2 rounded bg-white text-left`}>
+          <div key={index} className={`mb-2 p-2 rounded bg-white dark:bg-black text-left`}>
             <strong>{message.data.userId}: </strong>
             {message.data.text}
           </div>

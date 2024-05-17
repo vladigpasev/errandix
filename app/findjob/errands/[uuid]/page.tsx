@@ -75,7 +75,7 @@ async function Page({ params }: { params: { uuid: string } }) {
     
 
     return (
-        <div>
+        <div className='dark:min-h-screen'>
             {/* @ts-ignore */}
             <ErrandInfo errand={currentErrand} bio={bio} />
         </div>
