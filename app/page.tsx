@@ -1,29 +1,33 @@
-import { SignedIn, SignedOut } from '@clerk/nextjs'
-import React from 'react'
+import { SignedIn, SignedOut } from '@clerk/nextjs';
+import React from 'react';
 import { currentUser } from "@clerk/nextjs/server";
-import { redirect } from 'next/navigation';
 import Redirect from '@/components/Redirect';
+import Link from 'next/link';
 
 async function Home() {
-  const user = await currentUser()
+  const user = await currentUser();
 
   return (
     <div>
       <SignedOut>
         <div className='herodesign w-full page-content'>
           <div className='w-full max-w-4xl p-20 sm:pt-48 sm:px-20 lg:px-36 pt-28 px-10'>
-            <h1><span className="text-white sm:text-5xl text-4xl font-semibold">Намери </span><span className="text-white sm:text-5xl text-4xl font-extralight">услугата</span><span className="text-white sm:text-5xl text-4xl font-semibold ">, която ти трябва лесно</span></h1>
+            <h1>
+              <span className="text-white sm:text-5xl text-4xl font-semibold">Намери </span>
+              <span className="text-white sm:text-5xl text-4xl font-extralight">услугата</span>
+              <span className="text-white sm:text-5xl text-4xl font-semibold ">, която ти трябва лесно</span>
+            </h1>
             <div className='pt-8'>
               <form className="max-w-lg">
                 <div className="flex">
                   <div className="relative z-1 page-content w-full">
                     <input type="search" id="search-dropdown" className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border-s-gray-50 border-s-2 border border-gray-300 " placeholder="Търси всякакви услуги..." required />
-                    <button type="submit" className="sm:absolute top-0 end-0 p-2.5 text-sm font-medium sm:h-full sm:m-0 mt-2 text-white bg-secondary sm:rounded-e-lg border border-secondary hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-secondary sm:w-auto w-full h-10 rounded">
+                    <Link href='/findjob' type="submit" className="sm:absolute top-0 end-0 p-2.5 text-sm font-medium sm:h-full sm:m-0 mt-2 text-white bg-secondary sm:rounded-e-lg border border-secondary hover:bg-secondary focus:ring-4 focus:outline-none focus:ring-secondary sm:w-auto w-full h-10 rounded">
                       <svg className="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                       </svg>
                       <span className="sr-only">Търсене</span>
-                    </button>
+                    </Link>
                   </div>
                 </div>
               </form>
@@ -42,50 +46,42 @@ async function Home() {
         <div className='md:p-10 px-10 p-5 md:px-36 text-base-content font-semibold text-3xl'>
           <h2>Популярни услуги</h2>
           <div className='grid grid-cols-1 place-content-center md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-5 pt-10'>
-            <div className='flex justify-center'><img src="/popular/dogwalksvg.svg" className='rounded-lg' /></div>
-            <div className='flex justify-center'><img src="/popular/cleanhouse.svg" className='rounded-lg' /></div>
-            <div className='flex justify-center'><img src="/popular/childcare.svg" className='rounded-lg' /></div>
-            <div className='flex justify-center'><img src="/popular/gardenkeepingsvg.svg" className='rounded-lg' /></div>
+            <div className='flex justify-center'><img src="/popular/1.svg" className='rounded-lg' /></div>
+            <div className='flex justify-center'><img src="/popular/2.svg" className='rounded-lg' /></div>
+            <div className='flex justify-center'><img src="/popular/3.svg" className='rounded-lg' /></div>
+            <div className='flex justify-center'><img src="/popular/4.svg" className='rounded-lg' /></div>
           </div>
         </div>
 
         <div>
-          <div className='md:p-10 px-10 p-5 md:px-36  bg-[#FFD28E] bg-opacity-40 dark:bg-opacity- grid lg:grid-cols-2 grid-cols-1 gap-5'>
+          <div className='md:p-10 px-10 p-5 md:px-36  bg-[#FFD28E] bg-opacity-40 dark:bg-opacity-40 grid lg:grid-cols-2 grid-cols-1 gap-5'>
             <div>
               <h2 className='text-base-content font-semibold text-3xl pb-10'>Защо Errandix?</h2>
               <div className='flex flex-col gap-5 text-xl font-medium'>
                 <div className='flex gap-2'>
                   <div className='text-gray-500 dark:text-white'><svg fill='currentColor' width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.75C4.54822 1.75 1.75 4.54822 1.75 8C1.75 11.4518 4.54822 14.25 8 14.25C11.4518 14.25 14.25 11.4518 14.25 8C14.25 4.54822 11.4518 1.75 8 1.75ZM0.25 8C0.25 3.71979 3.71979 0.25 8 0.25C12.2802 0.25 15.75 3.71979 15.75 8C15.75 12.2802 12.2802 15.75 8 15.75C3.71979 15.75 0.25 12.2802 0.25 8Z"></path><path d="M11.5303 5.46967C11.8232 5.76256 11.8232 6.23744 11.5303 6.53033L7.53033 10.5303C7.23744 10.8232 6.76256 10.8232 6.46967 10.5303L4.46967 8.53033C4.17678 8.23744 4.17678 7.76256 4.46967 7.46967C4.76256 7.17678 5.23744 7.17678 5.53033 7.46967L7 8.93934L10.4697 5.46967C10.7626 5.17678 11.2374 5.17678 11.5303 5.46967Z"></path></svg></div>
-                  <div>
-                    <div>Повече свободно време</div>
-                  </div>
+                  <div>Повече свободно време</div>
                 </div>
                 <div className='flex gap-2'>
                   <div className='text-gray-500 dark:text-white'><svg fill='currentColor' width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.75C4.54822 1.75 1.75 4.54822 1.75 8C1.75 11.4518 4.54822 14.25 8 14.25C11.4518 14.25 14.25 11.4518 14.25 8C14.25 4.54822 11.4518 1.75 8 1.75ZM0.25 8C0.25 3.71979 3.71979 0.25 8 0.25C12.2802 0.25 15.75 3.71979 15.75 8C15.75 12.2802 12.2802 15.75 8 15.75C3.71979 15.75 0.25 12.2802 0.25 8Z"></path><path d="M11.5303 5.46967C11.8232 5.76256 11.8232 6.23744 11.5303 6.53033L7.53033 10.5303C7.23744 10.8232 6.76256 10.8232 6.46967 10.5303L4.46967 8.53033C4.17678 8.23744 4.17678 7.76256 4.46967 7.46967C4.76256 7.17678 5.23744 7.17678 5.53033 7.46967L7 8.93934L10.4697 5.46967C10.7626 5.17678 11.2374 5.17678 11.5303 5.46967Z"></path></svg></div>
-                  <div>
-                    <div>Спокойно ежедневие</div>
-                  </div>
+                  <div>Спокойно ежедневие</div>
                 </div>
                 <div className='flex gap-2'>
                   <div className='text-gray-500 dark:text-white'><svg fill='currentColor' width="20" height="20" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M8 1.75C4.54822 1.75 1.75 4.54822 1.75 8C1.75 11.4518 4.54822 14.25 8 14.25C11.4518 14.25 14.25 11.4518 14.25 8C14.25 4.54822 11.4518 1.75 8 1.75ZM0.25 8C0.25 3.71979 3.71979 0.25 8 0.25C12.2802 0.25 15.75 3.71979 15.75 8C15.75 12.2802 12.2802 15.75 8 15.75C3.71979 15.75 0.25 12.2802 0.25 8Z"></path><path d="M11.5303 5.46967C11.8232 5.76256 11.8232 6.23744 11.5303 6.53033L7.53033 10.5303C7.23744 10.8232 6.76256 10.8232 6.46967 10.5303L4.46967 8.53033C4.17678 8.23744 4.17678 7.76256 4.46967 7.46967C4.76256 7.17678 5.23744 7.17678 5.53033 7.46967L7 8.93934L10.4697 5.46967C10.7626 5.17678 11.2374 5.17678 11.5303 5.46967Z"></path></svg></div>
-                  <div>
-                    <div>Гарантирана сигурност</div>
-                  </div>
+                  <div>Гарантирана сигурност</div>
                 </div>
               </div>
             </div>
-
             <div>
               <img src="/whyussvg.svg" className='rounded w-full' />
             </div>
-
           </div>
         </div>
 
         <div className='px-20 py-10 bg-white'>
           <div className=' mb-12'>
             <h2 className='text-3xl lg:text-4xl font-bold text-[#292929]'>Как работи?</h2>
-            <p className='text-md mt-3 text-gray-600'>Разберете стъпките от създаването на обява за работа до намирането и.</p>
+            <p className='text-md mt-3 text-gray-600'>Разберете стъпките от създаването на обява за работа до намирането ѝ.</p>
           </div>
 
           <div className='space-y-12 md:space-y-0 px-6'>
@@ -104,7 +100,7 @@ async function Home() {
             <div className='flex flex-col md:grid md:grid-cols-12 gap-6 items-center'>
               <div className='md:col-span-7 md:order-1 order-2'>
                 <h3 className='text-lg font-semibold mb-3'>Ученикът открива обявата</h3>
-                <p className='text-gray-600'>Ученикът открива обявата и предлага заплащане, за което би я извършил</p>
+                <p className='text-gray-600'>Ученикът открива обявата и предлага заплащане, за което би я извършил.</p>
               </div>
               <div className='md:col-span-5 md:order-2 order-1'>
                 <img src="/steps/search.svg" className='w-full max-w-md mx-auto' />
@@ -124,9 +120,8 @@ async function Home() {
           </div>
         </div>
 
-
-        <div id='reviews' className="bg-gray-100 py-10 text-[#292929] ">
-          <div className=' mb-12 px-20'>
+        <div id='reviews' className="bg-gray-100 py-10 text-[#292929]">
+          <div className='mb-12 px-20'>
             <h2 className='text-3xl lg:text-4xl font-bold'>Какво казват хората за нас?</h2>
           </div>
           <div className='flex flex-wrap justify-center gap-10 px-5 lg:px-52'>
@@ -192,4 +187,4 @@ async function Home() {
   )
 }
 
-export default Home
+export default Home;
