@@ -79,6 +79,7 @@ function ErrandsTable() {
                                     Предложения
                                 </th>
                                 <th scope="col" className="px-6 py-3"></th>
+                                <th scope="col" className="px-6 py-3"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -97,7 +98,10 @@ function ErrandsTable() {
                                         {item.offers}
                                     </td>
                                     <td className="px-6 py-4">
-                                        <a href={"/hire/errands/"+item.uuid+'/edit'} className="font-medium hover:underline">Edit</a>
+                                        <a href={"/hire/errands/"+item.uuid} className="font-medium hover:underline">Кандидатури</a>
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        <a href={"/hire/errands/"+item.uuid+'/edit'} className="font-medium hover:underline">Редактиране</a>
                                     </td>
                                 </tr>
                             ))}
