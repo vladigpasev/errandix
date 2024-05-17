@@ -6,7 +6,7 @@ import { additionalDataTableClient, offers } from '@/schema/schema';
 import { currentUser } from "@clerk/nextjs/server";
 import OpenAI from 'openai';
 import { clerkClient } from "@clerk/nextjs/server";
-import { eq } from 'drizzle-orm';
+import { eq, and } from 'drizzle-orm';
 
 const db = drizzle(sql);
 
@@ -33,19 +33,19 @@ export async function apply(data: any) {
         console.log('Validating input data');
         const validatedData = errandSchema.parse(data);
 
-        console.log('Checking the number of applications');
+        console.log('Checking the number of applications for the specific errand');
         const existingApplications = await db
             .select()
             .from(offers)
             //@ts-ignore
-            .where(eq(offers.clientUuid, userUuid))
+            .where(and(eq(offers.clientUuid, userUuid), eq(offers.errandUuid, validatedData.errandUuid)))
             .execute();
 
         const numberOfApplications = existingApplications.length;
 
         if (numberOfApplications >= 3) {
-            console.log('User has reached the maximum number of applications');
-            return { success: false, message: 'Не е разрешено да кандидатстваш повече от 3 пъти! Моля изчакай отговор от работодателя!' };
+            console.log('User has reached the maximum number of applications for this errand');
+            return { success: false, message: 'Не е разрешено да кандидатстваш повече от 3 пъти за тази задача! Моля изчакай отговор от работодателя!' };
         }
 
         let bioNeedsValidation = true;
