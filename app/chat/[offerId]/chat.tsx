@@ -1,19 +1,23 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 //@ts-ignore
 import { Types, Realtime } from 'ably';
 import { AblyProvider, useChannel, useConnectionStateListener, ChannelProvider } from 'ably/react';
 import { useSearchParams } from 'next/navigation';
+import { sendMessage } from '@/server/messages'; // Importing the server action
 
 interface ChatClientProps {
   mode: string;
   offerId: string;
   senderName: string;
   senderProfileImage: string;
+  senderUuid: string;
+  previousMessages: Types.Message[]; // Add previousMessages to the props
+  apiKey: string;
 }
 
-export default function ChatClient({ mode, offerId, senderName, senderProfileImage }: ChatClientProps) {
-  const client = new Realtime({ key: 'RH7D4A.QYAVVA:dQx2mn0Bo1RCAZuBNTffgCOdEzpANYH7fESxXdIGRYA' });
+export default function ChatClient({ mode, offerId, senderName, senderProfileImage, senderUuid, previousMessages, apiKey }: ChatClientProps) {
+  const client = new Realtime({ key: apiKey });
 
   return (
     <AblyProvider client={client}>
@@ -22,6 +26,8 @@ export default function ChatClient({ mode, offerId, senderName, senderProfileIma
         offerId={offerId} 
         senderName={senderName} 
         senderProfileImage={senderProfileImage} 
+        senderUuid={senderUuid} 
+        previousMessages={previousMessages} // Pass previousMessages as a prop
       />
     </AblyProvider>
   );
@@ -32,9 +38,11 @@ interface ChatContainerProps {
   offerId: string;
   senderName: string;
   senderProfileImage: string;
+  senderUuid: string;
+  previousMessages: Types.Message[]; // Add previousMessages to the props
 }
 
-function ChatContainer({ mode, offerId, senderName, senderProfileImage }: ChatContainerProps) {
+function ChatContainer({ mode, offerId, senderName, senderProfileImage, senderUuid, previousMessages }: ChatContainerProps) {
   const searchParams = useSearchParams();
 
   if (!offerId) {
@@ -47,6 +55,8 @@ function ChatContainer({ mode, offerId, senderName, senderProfileImage }: ChatCo
         offerId={offerId} 
         senderName={senderName} 
         senderProfileImage={senderProfileImage} 
+        senderUuid={senderUuid}
+        previousMessages={previousMessages} // Pass previousMessages as a prop
       />
     </ChannelProvider>
   );
@@ -56,24 +66,50 @@ interface ChatProps {
   offerId: string;
   senderName: string;
   senderProfileImage: string;
+  senderUuid: string;
+  previousMessages: Types.Message[]; // Add previousMessages to the props
 }
 
-function Chat({ offerId, senderName, senderProfileImage }: ChatProps) {
-  const [messages, setMessages] = useState<Types.Message[]>([]);
+function Chat({ offerId, senderName, senderProfileImage, senderUuid, previousMessages }: ChatProps) {
+  const [messages, setMessages] = useState<Types.Message[]>(previousMessages); // Initialize state with previousMessages
   const [messageText, setMessageText] = useState('');
+  const [localMessageIds, setLocalMessageIds] = useState<Set<string>>(new Set());
 
   useConnectionStateListener('connected', () => {
     console.log('Connected to Ably!');
   });
 
   const { channel } = useChannel(`chat-${offerId}`, (message: Types.Message) => {
-    setMessages(previousMessages => [...previousMessages, message]);
+    // Check if the message is already in the state by comparing ids
+    setMessages(previousMessages => {
+      if (previousMessages.find(msg => msg.id === message.id)) {
+        return previousMessages;
+      }
+      return [...previousMessages, message];
+    });
   });
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (messageText.trim() !== '') {
-      channel.publish('chat-message', { text: messageText, userId: senderName });
-      setMessageText('');
+      const messageId = `local-${Date.now()}`; // Local ID until confirmed by the server
+
+      try {
+        // Send message to the server
+        await sendMessage(senderUuid, messageText, offerId);
+
+        // Publish message to the Ably channel
+        channel.publish('chat-message', {
+          id: messageId,
+          text: messageText,
+          clientId: senderUuid,
+          userId: senderName
+        });
+
+        // Clear the input box
+        setMessageText('');
+      } catch (error) {
+        console.error('Failed to send message:', error);
+      }
     }
   };
 
@@ -85,8 +121,8 @@ function Chat({ offerId, senderName, senderProfileImage }: ChatProps) {
       </div>
       <div className="w-full max-w-lg bg-gray-100 rounded-lg p-4 shadow-md overflow-y-auto" style={{ maxHeight: '300px' }}>
         {messages.map((message, index) => (
-          <div key={index} className={`mb-2 p-2 rounded ${message.data.userId === senderName ? 'bg-blue-200 text-right' : 'bg-white text-left'}`}>
-            <strong>{message.data.userId === senderName ? 'You' : message.data.userId}: </strong>
+          <div key={index} className={`mb-2 p-2 rounded bg-white text-left`}>
+            <strong>{message.data.userId}: </strong>
             {message.data.text}
           </div>
         ))}
@@ -99,7 +135,7 @@ function Chat({ offerId, senderName, senderProfileImage }: ChatProps) {
           placeholder="Type your message..."
           className="flex-grow p-2 border border-gray-300 rounded-l-lg"
         />
-        <button onClick={handleSendMessage} className="p-2 bg-blue-500 text-white rounded-r-lg hover:bg-blue-600">
+        <button onClick={handleSendMessage} className="p-2 bg-primary text-white rounded-r-lg">
           Send
         </button>
       </div>

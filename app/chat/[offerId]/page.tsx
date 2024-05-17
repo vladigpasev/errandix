@@ -3,7 +3,7 @@ import ChatClient from './chat';
 import { sql } from '@vercel/postgres';
 import { drizzle } from 'drizzle-orm/vercel-postgres';
 import { and, eq } from 'drizzle-orm';
-import { errands, offers } from '@/schema/schema';
+import { errands, messages, offers } from '@/schema/schema';
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import { notFound } from 'next/navigation';
 
@@ -55,6 +55,7 @@ async function Page({ params }: { params: { mode: string, offerId: string } }) {
 
   let senderName;
   let senderProfileImage;
+  let senderUuid;
 
   if (currentOffer.clientUuid === userUuid) {
     console.log('Client UUID matches current user UUID:', userUuid);
@@ -62,6 +63,7 @@ async function Page({ params }: { params: { mode: string, offerId: string } }) {
     console.log('Client info:', clientInfo);
     senderName = clientInfo.fullName;
     senderProfileImage = clientInfo.imageUrl;
+    senderUuid = clientInfo.id;
   } else {
     console.log('Client UUID does not match current user UUID:', userUuid);
     const errandsInfo = await db.select({
@@ -85,7 +87,40 @@ async function Page({ params }: { params: { mode: string, offerId: string } }) {
     console.log('Client info for employerUuid:', employerUuid, clientInfo);
     senderName = clientInfo.fullName;
     senderProfileImage = clientInfo.imageUrl;
+    senderUuid = clientInfo.id;
   }
+
+  const previousMessages = await db.select({
+    senderUuid: messages.senderUuid,
+    messageText: messages.messageText,
+    offerId: messages.offerId,
+  })
+    .from(messages)
+    .where(eq(messages.offerId, params.offerId))
+    .execute();
+
+  // Fetch user information for all unique sender UUIDs in previous messages
+  const uniqueSenderUuids = Array.from(new Set(previousMessages.map(msg => msg.senderUuid)));
+  const userInfos = await Promise.all(uniqueSenderUuids.map(uuid => clerkClient.users.getUser(uuid)));
+
+  // Create a mapping from UUID to user name
+  const uuidToUserNameMap = userInfos.reduce((acc, userInfo) => {
+    acc[userInfo.id] = userInfo.fullName;
+    return acc;
+  }, {});
+
+  // Transform previous messages to include user names
+  const transformedMessages = previousMessages.map(msg => ({
+    id: msg.id,
+    timestamp: new Date().toISOString(),
+    clientId: msg.senderUuid,
+    connectionId: null,
+    data: {
+      text: msg.messageText,
+      userId: msg.senderUuid === userUuid ? uuidToUserNameMap[msg.senderUuid] : uuidToUserNameMap[msg.senderUuid]
+    },
+    name: 'chat-message',
+  }));
 
   console.log('Sender name:', senderName);
   console.log('Sender profile image:', senderProfileImage);
@@ -95,9 +130,11 @@ async function Page({ params }: { params: { mode: string, offerId: string } }) {
       <ChatClient 
         mode={params.mode} 
         offerId={params.offerId} 
-        //@ts-ignore
         senderName={senderName} 
         senderProfileImage={senderProfileImage} 
+        senderUuid={senderUuid}
+        previousMessages={transformedMessages} // Pass transformed messages as a prop
+        apiKey={process.env.ABLY_API_KEY}
       />
     </div>
   );

@@ -52,9 +52,8 @@ export const offers = pgTable('offers', {
 export const messages = pgTable('messages', {
   id: serial('id').primaryKey(),
   offerId: uuid('offer_id').notNull(),
-  userId: uuid('user_id').notNull(),
-  senderName: text('sender_name').notNull(),
-  text: text('text').notNull(),
+  senderUuid: varchar('senderUuid', {length: 100}).notNull(),
+  messageText: varchar('messageText', {length: 100}).notNull(),
   //@ts-ignore
   createdAt: timestamp('created_at').default(`now()`),
 });

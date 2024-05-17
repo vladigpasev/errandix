@@ -43,6 +43,13 @@
       "when": 1715900933652,
       "tag": "0005_misty_starfox",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1715968430258,
+      "tag": "0006_left_sabretooth",
+      "breakpoints": true
     }
   ]
 }
