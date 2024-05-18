@@ -16,7 +16,7 @@ function Page() {
   }, []);
 
   return (
-    <div className='pt-24 px-24 dark:min-h-screen'>
+    <div className='pt-24 px-5 dark:min-h-screen lg:px-24 sm:px-10'>
       <SignedIn>
         <div className='flex flex-col gap-5'>
           {errands.map((errand) => (
@@ -33,7 +33,7 @@ function Page() {
                 {/* @ts-ignore */}
                 <p>{errand.specialReq}</p>
               </div>
-              <div className="card-actions justify-end text-primary">
+              <div className="card-actions justify-end text-primary pt-5">
                 {/* @ts-ignore */}
                 <div className="border border-primary rounded-full px-2 py-1">{errand.category}</div>
                 {/* @ts-ignore */}
@@ -62,7 +62,7 @@ function Page() {
                   {/* @ts-ignore */}
                   <p>{errand.specialReq}</p>
                 </div>
-                <div className="card-actions justify-end text-primary">
+                <div className="card-actions justify-end text-primary pt-5">
                   {/* @ts-ignore */}
                   <div className="border border-primary rounded-full px-2 py-1">{errand.category}</div>
                   {/* @ts-ignore */}
