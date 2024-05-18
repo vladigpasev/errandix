@@ -15,7 +15,7 @@ async function Home() {
             <h1>
               <span className="text-white sm:text-5xl text-4xl font-semibold">Намери </span>
               <span className="text-white sm:text-5xl text-4xl font-extralight">услугата</span>
-              <span className="text-white sm:text-5xl text-4xl font-semibold ">, която ти трябва лесно</span>
+              <span className="text-white sm:text-5xl text-4xl font-semibold ">, която ти трябва, лесно</span>
             </h1>
             <div className='pt-8'>
               <form className="max-w-xl">
