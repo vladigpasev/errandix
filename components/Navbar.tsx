@@ -75,7 +75,7 @@ function Navbar({ userProfileUrl }: any) {
                         <ul className='flex w-full flex-col gap-5'>
                             <SignedOut>
                                 <RegisterBtn onOpenNavbar />
-                                <Link href='/login'><li>Вход</li></Link>
+                                <SignInButton mode='modal'><li>Вход</li></SignInButton>
                             </SignedOut>
                             {pathname.startsWith('/hire') && (
                                 <>
