@@ -1,1 +1,0 @@
-ALTER TABLE "offers" ADD COLUMN "errandUuid" varchar(100) NOT NULL;

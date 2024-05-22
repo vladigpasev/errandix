@@ -1,15 +1,10 @@
-import { SignedIn, SignedOut } from '@clerk/nextjs';
-import React from 'react';
-import { currentUser } from "@clerk/nextjs/server";
-import Redirect from '@/components/Redirect';
-import Link from 'next/link';
 
+import React from 'react';
 async function Home() {
-  const user = await currentUser();
+  
 
   return (
     <div>
-      <SignedOut>
         <div className='herodesign w-full page-content'>
           <div className='w-full max-w-4xl p-20 sm:pt-48 sm:px-20 lg:px-36 pt-28 px-10'>
             <h1>
@@ -17,26 +12,9 @@ async function Home() {
               <span className="text-white sm:text-5xl text-4xl font-extralight">услугата</span>
               <span className="text-white sm:text-5xl text-4xl font-semibold ">, която ти трябва, лесно</span>
             </h1>
-            <div className='pt-8'>
-              <form className="max-w-xl">
-                <div className="flex w-full">
-                  <Link href='/findjob' className='w-full'>
-                    <div className="z-1 page-content w-full">
-                      <input type="search" id="search-dropdown" className="block p-3 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border-s-gray-50 border-s-2 border border-gray-300 " placeholder="Търси всякакви услуги..." required />
-                    </div>
-                  </Link>
-                </div>
-              </form>
-              <div className='sm:flex hidden items-start gap-5 pt-8 text-white text-sm font-medium'>
-                <div>Популярни:</div>
-                <div className="card-actions justify-start ">
-                  <div className="badge badge-outline text-sm font-medium">Разходка на куче</div>
-                  <div className="badge badge-outline text-sm font-medium">Грижа за дете</div>
-                  <div className="badge badge-outline text-sm font-medium">Почистване на къща</div>
-                  <div className="badge badge-outline text-sm font-medium">Поддържане на градина</div>
-                </div>
-              </div>
-            </div>
+            <h1 className='pt-10'>
+              <span className="text-white sm:text-3xl text-4xl font-extralight">Платформата е в процес на разработка, ще бъде активна за използване в следващите няколко месеца. През това време можете да разгледате нашия сайт :)</span>
+            </h1>
           </div>
         </div>
         <div className='md:p-10 px-10 p-5 md:px-36 text-base-content font-semibold text-3xl'>
@@ -175,10 +153,6 @@ async function Home() {
             </div>
           </nav>
         </footer>
-      </SignedOut>
-      <SignedIn>
-        <Redirect route="/findjob" />
-      </SignedIn>
     </div>
   )
 }

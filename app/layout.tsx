@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import { ClerkProvider } from '@clerk/nextjs'
-import { currentUser } from "@clerk/nextjs/server";
 
 import type { Viewport } from 'next'
 
@@ -27,15 +24,11 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const user = await currentUser()
   return (
-    <ClerkProvider>
       <html lang="bg">
         <body className={inter.className}>
-          <Navbar userProfileUrl={user?.imageUrl}/>
           {children}
         </body>
       </html>
-    </ClerkProvider>
   );
 }
